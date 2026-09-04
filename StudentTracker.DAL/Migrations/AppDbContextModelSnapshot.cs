@@ -41,7 +41,8 @@ namespace StudentTracker.DAL.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Notes")
                         .IsRequired()
@@ -53,7 +54,13 @@ namespace StudentTracker.DAL.Migrations
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("StudentId1")
+                        .HasColumnType("int");
+
                     b.Property<int>("SubjectId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SubjectId1")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -61,9 +68,14 @@ namespace StudentTracker.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("StudentId");
+                    b.HasIndex("StudentId1");
 
                     b.HasIndex("SubjectId");
+
+                    b.HasIndex("SubjectId1");
+
+                    b.HasIndex("StudentId", "SubjectId")
+                        .IsUnique();
 
                     b.ToTable("Assessments");
                 });
@@ -166,10 +178,10 @@ namespace StudentTracker.DAL.Migrations
 
                     b.Property<string>("NationalId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ParentPhoneNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("PersonalPhotoUrl")
                         .IsRequired()
@@ -181,6 +193,13 @@ namespace StudentTracker.DAL.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ClassRoomId");
+
+                    b.HasIndex("NationalId")
+                        .IsUnique();
+
+                    b.HasIndex("ParentPhoneNumber")
+                        .IsUnique()
+                        .HasFilter("[ParentPhoneNumber] IS NOT NULL");
 
                     b.ToTable("Students");
                 });
@@ -260,17 +279,25 @@ namespace StudentTracker.DAL.Migrations
 
             modelBuilder.Entity("StudentTracker.DAL.Entities.Assessment", b =>
                 {
+                    b.HasOne("StudentTracker.DAL.Entities.Student", null)
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.HasOne("StudentTracker.DAL.Entities.Student", "Student")
                         .WithMany("Assessments")
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("StudentId1");
+
+                    b.HasOne("StudentTracker.DAL.Entities.Subject", null)
+                        .WithMany()
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("StudentTracker.DAL.Entities.Subject", "Subject")
                         .WithMany("Assessments")
-                        .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SubjectId1");
 
                     b.Navigation("Student");
 

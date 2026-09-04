@@ -15,6 +15,16 @@ namespace StudentTracker.DAL.Data.Configurations
 
             builder.HasIndex(a => new { a.StudentId, a.SubjectId }).IsUnique();
 
+            builder.HasOne<Subject>()
+                .WithMany()
+                .HasForeignKey(a => a.SubjectId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasOne<Student>()
+                .WithMany()
+                .HasForeignKey(a => a.StudentId)
+                .OnDelete(DeleteBehavior.NoAction);
+
             builder.Property(a => a.Name)
                 .IsRequired()
                 .HasMaxLength(100);

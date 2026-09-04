@@ -22,6 +22,14 @@ namespace StudentTracker.DAL.Data
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
+            
+        }
+
+        // Override OnModelCreating to apply configurations
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
         }
     }
 }

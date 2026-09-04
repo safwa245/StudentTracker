@@ -61,10 +61,10 @@ namespace StudentTracker.DAL.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ParentPhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ParentPhoneNumber = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ClassRoomId = table.Column<int>(type: "int", nullable: false),
                     BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    NationalId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NationalId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     EnrollementDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PersonalPhotoUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -136,11 +136,13 @@ namespace StudentTracker.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     SubjectId = table.Column<int>(type: "int", nullable: false),
+                    SubjectId1 = table.Column<int>(type: "int", nullable: true),
                     MaximumMarks = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     StudentId = table.Column<int>(type: "int", nullable: false),
+                    StudentId1 = table.Column<int>(type: "int", nullable: true),
                     ObtainedMarks = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Notes = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -153,25 +155,44 @@ namespace StudentTracker.DAL.Migrations
                         name: "FK_Assessments_Students_StudentId",
                         column: x => x.StudentId,
                         principalTable: "Students",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Assessments_Students_StudentId1",
+                        column: x => x.StudentId1,
+                        principalTable: "Students",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Assessments_Subjects_SubjectId",
                         column: x => x.SubjectId,
                         principalTable: "Subjects",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Assessments_Subjects_SubjectId1",
+                        column: x => x.SubjectId1,
+                        principalTable: "Subjects",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Assessments_StudentId",
+                name: "IX_Assessments_StudentId_SubjectId",
                 table: "Assessments",
-                column: "StudentId");
+                columns: new[] { "StudentId", "SubjectId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Assessments_StudentId1",
+                table: "Assessments",
+                column: "StudentId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Assessments_SubjectId",
                 table: "Assessments",
                 column: "SubjectId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Assessments_SubjectId1",
+                table: "Assessments",
+                column: "SubjectId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Attendances_StudentId",
@@ -187,6 +208,19 @@ namespace StudentTracker.DAL.Migrations
                 name: "IX_Students_ClassRoomId",
                 table: "Students",
                 column: "ClassRoomId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Students_NationalId",
+                table: "Students",
+                column: "NationalId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Students_ParentPhoneNumber",
+                table: "Students",
+                column: "ParentPhoneNumber",
+                unique: true,
+                filter: "[ParentPhoneNumber] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Subjects_ClassRoomId",
