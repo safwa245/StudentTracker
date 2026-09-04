@@ -1,0 +1,91 @@
+##################
+# .NET / Visual Studio
+##################
+
+# Build results
+bin/
+obj/
+out/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+
+# Visual Studio files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider / JetBrains
+.idea/
+
+# VS Code
+.vscode/
+
+# NuGet
+*.nupkg
+**/packages/*
+!**/packages/build/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# EF Core migrations local snapshots (اختياري - سيبها متتراكش لو عايزين تشيلها)
+# Migrations/
+
+# Local secrets / connection strings
+appsettings.Development.json
+appsettings.*.local.json
+secrets.json
+
+# Logs
+*.log
+
+##################
+# Python (AI Service)
+##################
+
+# Byte-compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# Environment variables / API keys
+.env
+.env.local
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# Testing / cache
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Jupyter
+.ipynb_checkpoints/
+
+##################
+# General / OS
+##################
+
+.DS_Store
+Thumbs.db
+*.tmp
+*.bak
+
+# Database files (لو بتستخدموا SQLite محليًا)
+*.db
+*.sqlite
+*.sqlite3

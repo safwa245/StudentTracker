@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="StudentTracker.BLL/StudentTracker.BLL.csproj" />
+  <Project Path="StudentTracker.DAL/StudentTracker.DAL.csproj" />
+  <Project Path="StudentTracker.Shared/StudentTracker.Shared.csproj" />
+  <Project Path="StudentTracker/StudentTracker.PL.csproj" />
+</Solution>
